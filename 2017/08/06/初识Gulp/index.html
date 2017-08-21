@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html class="full-height">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="//cdn.bootcss.com/bulma/0.4.1/css/bulma.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  
+  <title>初识Gulp | MOKUO の 小窝</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Gulp.js 是一个自动化构建工具,开发者可以使用它在项目开发过程中自动执行常见任务。Gulp.js 是基于 Node.js 构建的,利用 Node.js 流的威力,你可以快速构建项目">
+<meta name="keywords" content="前端,gulp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识Gulp">
+<meta property="og:url" content="http://www.mokuo.club/2017/08/06/初识Gulp/index.html">
+<meta property="og:site_name" content="MOKUO の 小窝">
+<meta property="og:description" content="Gulp.js 是一个自动化构建工具,开发者可以使用它在项目开发过程中自动执行常见任务。Gulp.js 是基于 Node.js 构建的,利用 Node.js 流的威力,你可以快速构建项目">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://kevin-chappell.com/wp-content/uploads/2016/03/gulpjs-logo-wallpaper-618x386.jpg">
+<meta property="og:updated_time" content="2017-08-21T17:22:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="初识Gulp">
+<meta name="twitter:description" content="Gulp.js 是一个自动化构建工具,开发者可以使用它在项目开发过程中自动执行常见任务。Gulp.js 是基于 Node.js 构建的,利用 Node.js 流的威力,你可以快速构建项目">
+<meta name="twitter:image" content="https://kevin-chappell.com/wp-content/uploads/2016/03/gulpjs-logo-wallpaper-618x386.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="MOKUO の 小窝" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/icon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/common.css">
+<link rel="stylesheet" href="/css/nav.css">
+<link rel="stylesheet" href="/css/layout.css">
+  
+
+</head>
+
+<body>
+  <header id="navbar" class="overflow-hidden">
+  <div class="container">
+    <nav class="nav">
+         <div class="nav-left">
+            <a href="/" class="nav-item" style="font-size: 20px;">
+              <span class="logo">MOKUO</span>'s Blog
+            </a>
+         </div>
+        <div class="nav-center is-hidden position-relative" id="search_container">
+            <div class="nav-item full-width full-height">
+                <i class="fa fa-search has-padding" aria-hidden="true"></i>
+                <input type="text" id="search_input" class="search-input full-height full-width" placeholder="Search post" autofocus>
+                <i id="close_search" class="fa fa-times" aria-hidden="true"></i>
+            </div>
+            <div id="search_result"></div>
+        </div>
+        <div class="nav-right nav-menu">
+            <a class="nav-item" id="search">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </a>
+            
+            <a class="nav-item" href="/">
+                Home
+            </a>
+            
+            <a class="nav-item" href="/playground">
+                Playground
+            </a>
+            
+        </div>
+        <span class="nav-toggle" id="navMenuDropdown">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+        <div class="navbar-menu position-absolute full-width content-box is-hidden-desktop is-flex flex-column center" style="top: 100%;">
+            
+            <a class="nav-item flex-1" href="/">
+                Home
+            </a>
+            
+            <a class="nav-item flex-1" href="/playground">
+                Playground
+            </a>
+            
+        </div>
+    </nav>
+  </div>
+</header>
+
+  <div id="main-wrap" class="position-relative" style="margin-top: 55px;">
+      <div class="main-inner-content">
+          <!--博文页面-->
+
+<style>
+    .header-box {
+        height: 370px;
+        filter: blur(10px);
+        background-size: cover;
+        background-color: lightsteelblue;
+    }
+
+    .post-box {
+        padding: 15px;
+        padding-top: 60px;
+        min-height: 80vh;
+        margin-top: -200px;
+        border-radius: 4px;
+        background-color: rgba(255,255,255,.8);
+    }
+
+    .post-avatar {
+        height: 30px;
+        width: 30px;
+        border-radius: 50%;
+    }
+
+    .flow-chart {
+        text-align: center;
+    }
+
+    img[alt="post-cover"] {
+        display: none;
+    }
+</style>
+<header>
+    <div id="header_box" class="header-box"></div>
+</header>
+<section>
+    <div class="container post-box">
+        <div class="content post-title is-flex center flex-column" style="margin-bottom: 70px; overflow: auto;">
+            <h1 class="has-text-centered" style="padding-bottom: 10px; border-bottom: 3px solid #fff">
+                <strong>初识Gulp</strong>
+            </h1>
+            
+            <div class="is-flex align-center">
+                <img class="post-avatar" src="/img/avatar.jpg">
+                <span style="padding:0 10px;"> <span class="sub-title">By</span> MOKUO</span>
+                <span class="post-date sub-title">at: 2017-08-06</span>
+            </div>
+            
+                <div>
+                    
+                         <a class="tag is-post-tag" href="/tags/前端/">前端</a>
+                    
+                         <a class="tag is-post-tag" href="/tags/gulp/">gulp</a>
+                    
+                </div>
+            
+        </div>
+        <div class="content" style="overflow: auto">
+            <p>Gulp.js 是一个自动化构建工具,开发者可以使用它在项目开发过程中自动执行常见任务。Gulp.js 是基于 Node.js 构建的,利用 Node.js 流的威力,你可以快速构建项目<br><a id="more"></a><br><img src="https://kevin-chappell.com/wp-content/uploads/2016/03/gulpjs-logo-wallpaper-618x386.jpg" alt="post-cover"></p>
+<h1 id="Gulp简介"><a href="#Gulp简介" class="headerlink" title="Gulp简介"></a>Gulp简介</h1><blockquote>
+<p>Gulp.js 是一个自动化构建工具,开发者可以使用它在项目开发过程中自动执行常见任务。Gulp.js 是基于 Node.js 构建的,利用 Node.js 流的威力,你可以快速构建项目</p>
+</blockquote>
+<p><a href="http://www.gulpjs.com.cn/" target="_blank" rel="external">官方网站</a></p>
+<hr>
+<h1 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h1><ul>
+<li>安装命令行工具<br><code>npm install -g gulp-cli</code></li>
+<li>安装本体<br><code>npm install --save-dev gulp</code><blockquote>
+<p><em>注：至于为什么不直接全局安装，那是因为全局安装并不能直接在命令行使用，官方这么做的原因是为了版本和依赖的控制，如果所有项目都使用全局的同一个版本，有时候会带来不必要的麻烦</em></p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li>在项目根目录下创建一个名为 gulpfile.js 的文件：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">const gulp = require(&apos;gulp&apos;);</div><div class="line">gulp.task(&apos;任务名称&apos;,  () =&gt; &#123;</div><div class="line">  // 将你的任务代码放在这，若任务名称为default，则为默认任务</div><div class="line">  //在使用命令行时可直接使用：gulp，若有自定义名称时，则使用：gulp 自定义名称</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h1 id="Gulp插件"><a href="#Gulp插件" class="headerlink" title="Gulp插件"></a>Gulp插件</h1><blockquote>
+<p>gulp插件可以实现前端一些功能的自动化，比如sass转换css，babel编译ES6为ES5代码等。不同的插件有不同的功能，并且利用gulp的流式处理，我们可以轻松完成类似流水线一般的处理操作。</p>
+</blockquote>
+<p>流式处理形式的任务代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">gulp.src(&apos;源文件地址&apos;)</div><div class="line">  .pipe(处理1)</div><div class="line">  .pipe(处理2)</div><div class="line">  .pipe(gulp.dest(&apos;输出地址&apos;));</div></pre></td></tr></table></figure></p>
+<hr>
+<h1 id="常用插件"><a href="#常用插件" class="headerlink" title="常用插件"></a>常用插件</h1><h2 id="1-gulp-ruby-sass"><a href="#1-gulp-ruby-sass" class="headerlink" title="1. gulp-ruby-sass"></a>1. <a href="https://www.npmjs.com/package/gulp-ruby-sass" target="_blank" rel="external">gulp-ruby-sass</a></h2><blockquote>
+<p>此插件需要本机已<a href="https://www.sass.hk/install/" target="_blank" rel="external">标准安装sass</a></p>
+</blockquote>
+<h3 id="使用方法-1"><a href="#使用方法-1" class="headerlink" title="使用方法"></a>使用方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">const gulp = require(&apos;gulp&apos;);</div><div class="line">const sass = require(&apos;gulp-ruby-sass&apos;);</div><div class="line">gulp.task(&apos;sass&apos;, () =&gt;</div><div class="line">    sass(&apos;source/file.scss&apos;)</div><div class="line">        .on(&apos;error&apos;, sass.logError)</div><div class="line">        .pipe(gulp.dest(&apos;result&apos;))</div><div class="line">);</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="2-gulp-autoprefixer"><a href="#2-gulp-autoprefixer" class="headerlink" title="2. gulp-autoprefixer"></a>2. <a href="https://www.npmjs.com/package/gulp-autoprefixer" target="_blank" rel="external">gulp-autoprefixer</a></h2><blockquote>
+<p>此插件为css自动补充各浏览器厂商前缀，解决兼容性问题</p>
+</blockquote>
+<h3 id="使用方法-2"><a href="#使用方法-2" class="headerlink" title="使用方法"></a>使用方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">const gulp = require(&apos;gulp&apos;);</div><div class="line">const autoprefixer = require(&apos;gulp-autoprefixer&apos;);</div><div class="line">gulp.task(&apos;default&apos;, () =&gt;</div><div class="line">    gulp.src(&apos;src/app.css&apos;)</div><div class="line">        .pipe(autoprefixer(&#123;</div><div class="line">            browsers: [&apos;last 2 versions&apos;],</div><div class="line">            cascade: false</div><div class="line">        &#125;))</div><div class="line">        .pipe(gulp.dest(&apos;dist&apos;))</div><div class="line">);</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="3-gulp-purifycss"><a href="#3-gulp-purifycss" class="headerlink" title="3. gulp-purifycss"></a>3. <a href="https://www.npmjs.com/package/gulp-purifycss" target="_blank" rel="external">gulp-purifycss</a></h2><blockquote>
+<p>精简没有用到的的css代码</p>
+</blockquote>
+<h3 id="使用方法-3"><a href="#使用方法-3" class="headerlink" title="使用方法"></a>使用方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">const purify = require(&apos;gulp-purifycss&apos;);</div><div class="line">gulp.task(&apos;css&apos;, () =&gt; &#123;</div><div class="line">  return gulp.src(&apos;./public/app/example.css&apos;)</div><div class="line">    .pipe(purify([&apos;./public/app/**/*.js&apos;, &apos;./public/**/*.html&apos;]))</div><div class="line">    .pipe(gulp.dest(&apos;./dist/&apos;));</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="4-gulp-wrap"><a href="#4-gulp-wrap" class="headerlink" title="4. gulp-wrap"></a>4. <a href="https://www.npmjs.com/package/gulp-wrap" target="_blank" rel="external">gulp-wrap</a></h2><blockquote>
+<p>用来结合文本的公共部分和特有部分，例如：结合公共的「head」或者「footer」</p>
+</blockquote>
+<h3 id="使用方法-4"><a href="#使用方法-4" class="headerlink" title="使用方法"></a>使用方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">gulp.task(&quot;build&quot;, () =&gt; &#123;</div><div class="line">    gulp.src(&quot;src/*.html&quot;)</div><div class="line">        .pipe(wrap(&#123;src:&quot;layout/default.html&quot;&#125;))  在</div><div class="line">        .pipe(gulp.dest(&quot;dis/&quot;));</div><div class="line">&#125;);</div><div class="line">/**</div><div class="line">*公共部分为default.html, 在其内部需要替换内容的地方键入&lt;%= contents %&gt;</div><div class="line">**/</div></pre></td></tr></table></figure>
+<hr>
+<p><em>持续更新…</em></p>
+
+        </div>
+        <div class="post-reply">
+            
+                <!-- 来必力City版安装代码 -->
+                <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDMzNy82ODkw">
+                    <script type="text/javascript">
+                        (function(d, s) {
+                            var j, e = d.getElementsByTagName(s)[0];
+
+                            if (typeof LivereTower === 'function') { return; }
+
+                            j = d.createElement(s);
+                            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                            j.async = true;
+
+                            e.parentNode.insertBefore(j, e);
+                        })(document, 'script');
+                    </script>
+                    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+                </div>
+                <!-- City版安装代码已完成 -->
+            
+            
+        </div>
+    </div>
+</section>
+<script>
+    // 获取第一张图, 用以当封面背景图
+    var img = document.querySelectorAll('img')[1]
+
+    if (img) {
+        var header_box = document.querySelector('#header_box')
+        header_box.style.backgroundImage = 'url('+ img.src +')'
+    }
+</script>
+      </div>
+  </div>
+  <style>
+  #footer {
+    min-height: 10vh;
+    background: black;
+    color: #fff;
+  }
+
+  #footer a {
+    color: #e1e1e1;
+  }
+</style>
+<footer id="footer" class="has-text-centered is-flex center">
+  <div class="container has-padding">
+    <div>
+      <div>
+        <!--请您保留作者署名, 主题制作来之不易-->
+        Theme by <a href="http://haojen.github.io/">Haojen Ma</a>
+        <br>
+        Copyright © MOKUO 2017
+        <br>
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/search_core.js"></script>
+<script src="/js/script.js"></script>
+
+</body>
+</html>

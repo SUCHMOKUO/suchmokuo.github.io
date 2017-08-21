@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html class="full-height">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="//cdn.bootcss.com/bulma/0.4.1/css/bulma.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  
+  <title>Babel简明使用方式 | MOKUO の 小窝</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Babel简单使用介绍">
+<meta name="keywords" content="前端,babel">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Babel简明使用方式">
+<meta property="og:url" content="http://www.mokuo.club/2017/08/06/Babel简明使用方式/index.html">
+<meta property="og:site_name" content="MOKUO の 小窝">
+<meta property="og:description" content="Babel简单使用介绍">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://blog.ineat-conseil.fr/wp-content/uploads/2015/04/Capture-d%E2%80%99%C3%A9cran-2015-04-21-%C3%A0-17.47.31.png">
+<meta property="og:updated_time" content="2017-08-21T17:25:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Babel简明使用方式">
+<meta name="twitter:description" content="Babel简单使用介绍">
+<meta name="twitter:image" content="http://blog.ineat-conseil.fr/wp-content/uploads/2015/04/Capture-d%E2%80%99%C3%A9cran-2015-04-21-%C3%A0-17.47.31.png">
+  
+    <link rel="alternate" href="/atom.xml" title="MOKUO の 小窝" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/icon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/common.css">
+<link rel="stylesheet" href="/css/nav.css">
+<link rel="stylesheet" href="/css/layout.css">
+  
+
+</head>
+
+<body>
+  <header id="navbar" class="overflow-hidden">
+  <div class="container">
+    <nav class="nav">
+         <div class="nav-left">
+            <a href="/" class="nav-item" style="font-size: 20px;">
+              <span class="logo">MOKUO</span>'s Blog
+            </a>
+         </div>
+        <div class="nav-center is-hidden position-relative" id="search_container">
+            <div class="nav-item full-width full-height">
+                <i class="fa fa-search has-padding" aria-hidden="true"></i>
+                <input type="text" id="search_input" class="search-input full-height full-width" placeholder="Search post" autofocus>
+                <i id="close_search" class="fa fa-times" aria-hidden="true"></i>
+            </div>
+            <div id="search_result"></div>
+        </div>
+        <div class="nav-right nav-menu">
+            <a class="nav-item" id="search">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </a>
+            
+            <a class="nav-item" href="/">
+                Home
+            </a>
+            
+            <a class="nav-item" href="/playground">
+                Playground
+            </a>
+            
+        </div>
+        <span class="nav-toggle" id="navMenuDropdown">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+        <div class="navbar-menu position-absolute full-width content-box is-hidden-desktop is-flex flex-column center" style="top: 100%;">
+            
+            <a class="nav-item flex-1" href="/">
+                Home
+            </a>
+            
+            <a class="nav-item flex-1" href="/playground">
+                Playground
+            </a>
+            
+        </div>
+    </nav>
+  </div>
+</header>
+
+  <div id="main-wrap" class="position-relative" style="margin-top: 55px;">
+      <div class="main-inner-content">
+          <!--博文页面-->
+
+<style>
+    .header-box {
+        height: 370px;
+        filter: blur(10px);
+        background-size: cover;
+        background-color: lightsteelblue;
+    }
+
+    .post-box {
+        padding: 15px;
+        padding-top: 60px;
+        min-height: 80vh;
+        margin-top: -200px;
+        border-radius: 4px;
+        background-color: rgba(255,255,255,.8);
+    }
+
+    .post-avatar {
+        height: 30px;
+        width: 30px;
+        border-radius: 50%;
+    }
+
+    .flow-chart {
+        text-align: center;
+    }
+
+    img[alt="post-cover"] {
+        display: none;
+    }
+</style>
+<header>
+    <div id="header_box" class="header-box"></div>
+</header>
+<section>
+    <div class="container post-box">
+        <div class="content post-title is-flex center flex-column" style="margin-bottom: 70px; overflow: auto;">
+            <h1 class="has-text-centered" style="padding-bottom: 10px; border-bottom: 3px solid #fff">
+                <strong>Babel简明使用方式</strong>
+            </h1>
+            
+            <div class="is-flex align-center">
+                <img class="post-avatar" src="/img/avatar.jpg">
+                <span style="padding:0 10px;"> <span class="sub-title">By</span> MOKUO</span>
+                <span class="post-date sub-title">at: 2017-08-06</span>
+            </div>
+            
+                <div>
+                    
+                         <a class="tag is-post-tag" href="/tags/前端/">前端</a>
+                    
+                         <a class="tag is-post-tag" href="/tags/babel/">babel</a>
+                    
+                </div>
+            
+        </div>
+        <div class="content" style="overflow: auto">
+            <p>Babel简单使用介绍<br><a id="more"></a><br><img src="http://blog.ineat-conseil.fr/wp-content/uploads/2015/04/Capture-d%E2%80%99%C3%A9cran-2015-04-21-%C3%A0-17.47.31.png" alt="post-cover"></p>
+<h1 id="安装所需依赖"><a href="#安装所需依赖" class="headerlink" title="安装所需依赖"></a>安装所需依赖</h1><p><code>npm install -g babel-cli babel-register babel-preset-es2015 babel-preset-stage-2</code></p>
+<p><em>*可以按需求选择全局安装或者作为dev依赖安装，本例为全局安装</em></p>
+<h1 id="依赖说明"><a href="#依赖说明" class="headerlink" title="依赖说明"></a>依赖说明</h1><table>
+<thead>
+<tr>
+<th style="text-align:left">包</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">babel-cli</td>
+<td style="text-align:left">babel主程序</td>
+</tr>
+<tr>
+<td style="text-align:left">babel-register</td>
+<td style="text-align:left">babel-register模块改写require命令，为它加上一个钩子。此后，每当使用require加载.js、.jsx、.es和.es6后缀名的文件，就会先用Babel进行转码。</td>
+</tr>
+<tr>
+<td style="text-align:left">babel-preset-es2015</td>
+<td style="text-align:left">ES2015转码规则</td>
+</tr>
+<tr>
+<td style="text-align:left">babel-preset-stage-2</td>
+<td style="text-align:left">ES7不同阶段语法提案的转码规则（共有4个阶段，0～3，此处选用2）</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h1><h2 id="直接使用"><a href="#直接使用" class="headerlink" title="直接使用"></a>直接使用</h2><p>首先创建配置文件<br>Babel的配置文件是 <strong>.babelrc</strong> ，存放在项目的根目录下。使用Babel的第一步，就是配置这个文件。<br>该文件用来设置转码规则和插件，基本格式如下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;presets&quot;: [],</div><div class="line">  &quot;plugins&quot;: []</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>presets</strong> 字段设定转码规则，官方提供以下的规则集，你可以根据需要安装。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"># ES2015转码规则</div><div class="line">$ npm install --save-dev babel-preset-es2015</div><div class="line"># react转码规则</div><div class="line">$ npm install --save-dev babel-preset-react</div><div class="line"># ES7不同阶段语法提案的转码规则（共有4个阶段），选装一个</div><div class="line">$ npm install --save-dev babel-preset-stage-0</div><div class="line">$ npm install --save-dev babel-preset-stage-1</div><div class="line">$ npm install --save-dev babel-preset-stage-2</div><div class="line">$ npm install --save-dev babel-preset-stage-3</div></pre></td></tr></table></figure></p>
+<p>本例中我们已经安装了 <strong>es2015</strong> 和 <strong>babel-preset-stage-2</strong></p>
+<p>填写配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;presets&quot;: [</div><div class="line">    &quot;es2015&quot;,</div><div class="line">    &quot;stage-2&quot;</div><div class="line">  ]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>之后，就可以在命令行内使用babel了，基本用法如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"># 转码结果输出到标准输出</div><div class="line">$ babel example.js</div><div class="line"># 转码结果写入一个文件</div><div class="line"># --out-file 或 -o 参数指定输出文件</div><div class="line">$ babel example.js --out-file compiled.js</div><div class="line"># 或者</div><div class="line">$ babel example.js -o compiled.js</div><div class="line"># 整个目录转码</div><div class="line"># --out-dir 或 -d 参数指定输出目录</div><div class="line">$ babel src --out-dir lib</div><div class="line"># 或者</div><div class="line">$ babel src -d lib</div><div class="line"># -s 参数生成source map文件</div><div class="line">$ babel src -d lib -s</div></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="使用babel-register"><a href="#使用babel-register" class="headerlink" title="使用babel-register"></a>使用babel-register</h2><h3 id="用法1"><a href="#用法1" class="headerlink" title="用法1"></a>用法1</h3><p>使用时，必须首先加载babel-register。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">require(&quot;babel-register&quot;);</div><div class="line">require(&quot;./index.js&quot;);</div></pre></td></tr></table></figure></p>
+<p>然后，就不需要手动对index.js转码了。</p>
+<p><strong>需要注意的是，babel-register只会对require命令加载的文件转码，而不会对当前文件转码。另外，由于它是实时转码，所以只适合在开发环境使用。</strong></p>
+<hr>
+<h3 id="用法2"><a href="#用法2" class="headerlink" title="用法2"></a>用法2</h3><p>若为node程序，另一种更简洁的使用方式如下：</p>
+<ol>
+<li>在项目根目录创建bin文件夹</li>
+<li>进入bin文件夹创建文件，名为dev（名称随意，注意没有后缀）</li>
+<li><p>键入如下代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">require(&apos;babel-register&apos;);</div><div class="line">require(&apos;想要编译的文件的位置&apos;);</div></pre></td></tr></table></figure>
+</li>
+<li><p>终端使用<code>node ./bin/dev</code>即可完成先编译再运行的操作</p>
+</li>
+</ol>
+<p><em>此招针对node迟迟不肯实现的 import 特性  ´_&gt;`</em></p>
+<hr>
+<p>参考来源：</p>
+<ul>
+<li><a href="http://www.ruanyifeng.com/blog/2016/01/babel.html" target="_blank" rel="external">阮一峰 Babel 入门教程</a></li>
+<li><a href="https://www.youtube.com/watch?v=LtEP_-3a5CY" target="_blank" rel="external">ES2015 / ES2017 with Babel + Node.js Tutorial - 2017 (YouTube)</a></li>
+</ul>
+
+        </div>
+        <div class="post-reply">
+            
+                <!-- 来必力City版安装代码 -->
+                <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDMzNy82ODkw">
+                    <script type="text/javascript">
+                        (function(d, s) {
+                            var j, e = d.getElementsByTagName(s)[0];
+
+                            if (typeof LivereTower === 'function') { return; }
+
+                            j = d.createElement(s);
+                            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                            j.async = true;
+
+                            e.parentNode.insertBefore(j, e);
+                        })(document, 'script');
+                    </script>
+                    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+                </div>
+                <!-- City版安装代码已完成 -->
+            
+            
+        </div>
+    </div>
+</section>
+<script>
+    // 获取第一张图, 用以当封面背景图
+    var img = document.querySelectorAll('img')[1]
+
+    if (img) {
+        var header_box = document.querySelector('#header_box')
+        header_box.style.backgroundImage = 'url('+ img.src +')'
+    }
+</script>
+      </div>
+  </div>
+  <style>
+  #footer {
+    min-height: 10vh;
+    background: black;
+    color: #fff;
+  }
+
+  #footer a {
+    color: #e1e1e1;
+  }
+</style>
+<footer id="footer" class="has-text-centered is-flex center">
+  <div class="container has-padding">
+    <div>
+      <div>
+        <!--请您保留作者署名, 主题制作来之不易-->
+        Theme by <a href="http://haojen.github.io/">Haojen Ma</a>
+        <br>
+        Copyright © MOKUO 2017
+        <br>
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/search_core.js"></script>
+<script src="/js/script.js"></script>
+
+</body>
+</html>
